@@ -14,16 +14,16 @@ def update(screen, cells, size, is_progress=False):
   newCell = np.zeros((cells.shape[0], cells.shape[1]))
 
   for row, col in np.ndindex(cells.shape):
-    count = 0
+    count = np.sum(cells[row-1:row+2, col-1:col+2]) - cells[row, col]
     color = COLORS[0] if cells[row, col] == 0 else COLORS[3]
 
-    # Count 8 neighbors if not 0 then add to count
-    for i in range(-1, 2):
-      for j in range(-1, 2):
-        if i == 0 and j == 0:
-          continue
-        if cells[(row+i)%size, (col+j)%size] != 0:
-          count += 1
+    # # Count 8 neighbors if not 0 then add to count
+    # for i in range(-1, 2):
+    #   for j in range(-1, 2):
+    #     if i == 0 and j == 0:
+    #       continue
+    #     if cells[(row+i)%size, (col+j)%size] != 0:
+    #       count += 1
 
 
     # If cell is alive
@@ -76,7 +76,7 @@ def main():
     if running:
       cells = update(screen, cells, 10, True)
       pygame.display.update()
-      time.sleep(0.001)
+    time.sleep(0.001)
 
 if __name__ == "__main__":
   main()
