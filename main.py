@@ -8,7 +8,10 @@ import numpy as np
 # 2: Die cell
 # 3: Alive cell
 COLORS = [(10,10,10), (40,40,40), (170,170,170), (255,255,255)]
-
+ISDEBUG = True
+FILE_PATH = 'array_data.npy'
+magic = [False, False, False]
+m = 0
 
 def update(screen, cells, size, is_progress=False):
   newCell = np.zeros((cells.shape[0], cells.shape[1]))
@@ -64,6 +67,22 @@ def main():
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_SPACE:
           running = not running
+          update(screen, cells, 10)
+          pygame.display.update()
+        if event.key == pygame.K_TAB and ISDEBUG:
+          np.save(FILE_PATH, cells)
+        if event.key == pygame.K_h:
+          m = 0
+          magic[m] = True
+        if event.key == pygame.K_b:
+          m = 1
+          magic[m] = True
+        if event.key == pygame.K_d:
+          m = 2
+          magic[m] = True
+
+        if magic[0] and magic[1] and magic[2]:
+          cells = np.load(FILE_PATH)
           update(screen, cells, 10)
           pygame.display.update()
       if pygame.mouse.get_pressed()[0]:
